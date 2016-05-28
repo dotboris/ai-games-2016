@@ -31,9 +31,9 @@ def shortest_path(game, source, destination):
                         destination
     """
     others_pos = [hero.pos for hero in game.heroes if hero.id != game.hero.id]
-    danger_zones = [adj for other in others_pos for adj in [game.board.to(other, 'North'), game.board.to(other, 'East'), game.board.to(other, 'South'), game.board.to(other, 'West')]]
+    #danger_zones = [adj for other in others_pos for adj in _neighbors(game, other)]
 
-    health_percent = 1 - game.hero.life / 100 
+    health_percent = game.hero.life / 100
     if health_percent > 1 or health_percent < 0: print('what!')
 
     board = game.board
@@ -60,10 +60,11 @@ def shortest_path(game, source, destination):
 
             tile = board.tiles[v[0]][v[1]]
             if tile == SPIKE:
-                distances[v] += abs(10 * health_percent)
+                distances[v] += abs(10 * (1 - health_percent))
 
-            if v in danger_zones:
-                distances[v] += abs(10 * health_percent)
+            for o in others_pos:
+                if (approx_distance(game.hero.pos, o) <= 2) and (v in _neighbors(game, o)) and (health_percent <= 0.5):
+                    distances[v] += 2
 
             predecessors[v] = u
 
@@ -75,6 +76,9 @@ def shortest_path(game, source, destination):
 def approx_distance(a, b):
     return abs((a[0] - b[0]) + (a[1] - b[1]))
 
+
+def _neighbors(game, pos):
+    return set([game.board.to(pos, 'North'), game.board.to(pos, 'East'), game.board.to(pos, 'South'), game.board.to(pos, 'West')])
 
 def _build_path(destination, predecessors):
     path = []
