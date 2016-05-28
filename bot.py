@@ -7,10 +7,14 @@ import webbrowser
 class Bot:
     def __init__(self):
         self.viewUrl = None
-        
+
     def freemine(self, game, mines_locs):
-        untaken_mines = [loc for loc, hero in mines_locs.items() if hero == '-']
-        return sorted(untaken_mines, key=lambda l: len(shortest_path(game.board, game.hero.pos, l)))[0]
+        try:
+            hero_id = game.hero.id
+            untaken_mines = [loc for loc, hero in mines_locs.items() if hero != str(hero_id)]
+            return sorted(untaken_mines, key=lambda l: len(shortest_path(game.board, game.hero.pos, l)))[0]
+        except:
+            return hero.pos
 
     def move(self, state):
         if not self.viewUrl:
