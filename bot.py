@@ -6,6 +6,7 @@ import webbrowser
 
 class Bot:
     def __init__(self):
+        self.healing = False
         self.viewUrl = None
 
     def hero_distance(self, location):
@@ -34,8 +35,14 @@ class Bot:
         game = Game(state)
         self.game = game
 
+        if self.healing and self.game.hero.life >= 99:
+            self.healing = False
+
+        if self.game.hero.life <= 35:
+            self.healing = True
+
         dest = self.game.hero.pos
-        if game.hero.life <= 25:
+        if self.healing:
             dest = self.closest_tavern()
         else:
             dest = self.closest_enemy_mine(game)
