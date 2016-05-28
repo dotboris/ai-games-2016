@@ -62,6 +62,7 @@ class Board:
             return '@' + repr(obj.heroId)
         if (isinstance(obj, HeroTile)):
             return '$' + repr(obj.id)
+        return repr(obj)
  
     def __parseTile(self, str):
         if (str == '  '):
