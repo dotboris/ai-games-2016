@@ -27,6 +27,13 @@ class Bot:
         except:
             return game.hero.pos
 
+    def best_target_loc(self):
+        # target player neirby with lower lifei
+        def target_player(p):
+            return p.life > self.game.hero.life and len(shortest_path(self.game.board, self.game.hero.pos, p.pos)) <= 2
+        targets = filter(lambda p: not target_player(p), self.game.enemies)
+        return max(targets, key=lambda t: t.mines)
+
     def move(self, state):
         if not self.viewUrl:
             self.viewUrl = state['viewUrl']
@@ -34,7 +41,7 @@ class Bot:
 
         game = Game(state)
         self.game = game
-
+        
         if self.healing and self.game.hero.life >= 99:
             self.healing = False
 
@@ -46,6 +53,10 @@ class Bot:
             dest = self.closest_tavern()
         else:
             dest = self.closest_enemy_mine(game)
+
+        target = self.best_target_loc()
+        if target is not None:
+            dest = target.pos 
 
         if dest == self.game.hero.pos:
             return 'Stay'

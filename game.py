@@ -30,6 +30,9 @@ class Game:
         self.board = Board(state['game']['board'])
         self.heroes = [Hero(state['game']['heroes'][i]) for i in range(len(state['game']['heroes']))]
         self.hero = self.heroes[int(state['hero']['id']) - 1]
+        self.enemies = self.heroes
+        del self.enemies[int(state['hero']['id']) - 1]
+            
         self.mines_locs = {}
         self.heroes_locs = {}
         self.taverns_locs = set([])
@@ -39,6 +42,8 @@ class Game:
                 obj = self.board.tiles[row][col]
                 if isinstance(obj, MineTile):
                     self.mines_locs[(row, col)] = obj.heroId
+                    if obj.heroId != '-':
+                        self.enemies[int(obj.heroId)-1].mines += 1
                 elif isinstance(obj, HeroTile):
                     self.heroes_locs[(row, col)] = obj.id
                 elif (obj == TAVERN):
@@ -124,3 +129,4 @@ class Hero:
         self.pos = (int(hero['pos']['x']), int(hero['pos']['y']))
         self.life = hero['life']
         self.gold = hero['gold']
+        self.mines = 0
