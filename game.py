@@ -63,7 +63,7 @@ class Board:
         if (isinstance(obj, HeroTile)):
             return '$' + repr(obj.id)
         return repr(obj)
- 
+
     def __parseTile(self, str):
         if (str == '  '):
             return AIR
@@ -94,7 +94,7 @@ class Board:
         'true if can walk through'
         row, col = loc
         pos = self.tiles[row][col]
-        return (pos != WALL) and (pos != TAVERN) and not isinstance(pos, MineTile)
+        return (pos != WALL) and (pos != TAVERN) and not isinstance(pos, MineTile) and not isinstance(pos, HeroTile)
 
     def to(self, loc, direction):
         'calculate a new location given the direction'
