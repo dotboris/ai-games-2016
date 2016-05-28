@@ -22,10 +22,5 @@ class Bot:
             webbrowser.open(self.viewUrl,new=2)
 
         game = Game(state)
-        # TODO implement SkyNet here
-        # Pathfinding example:
-        # dir = navigate_towards(game.board, game.hero.pos, (0, 0))
-        dirs = ['Stay', 'North', 'South', 'East', 'West']
         dest = self.freemine(game, game.mines_locs)
-        print('dest is ' +  repr(dest))
         return navigate_towards(game.board, game.hero.pos, dest)
