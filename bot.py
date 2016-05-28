@@ -47,5 +47,7 @@ class Bot:
         else:
             dest = self.closest_enemy_mine(game)
 
-        direction = navigate_towards(game.board, game.hero.pos, dest)
-        return direction
+        if dest == self.game.hero.pos:
+            return 'Stay'
+        else:
+            return navigate_towards(game.board, game.hero.pos, dest)
