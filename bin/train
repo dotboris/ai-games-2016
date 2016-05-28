@@ -1,4 +1,4 @@
 #!/bin/bash
-cd "$(dirname $9)/.." || exit 1
+cd "$(dirname $0)/.." || exit 1
 
 python client.py "$APIKEY" training
