@@ -38,12 +38,14 @@ class Bot:
         if self.healing and self.game.hero.life >= 99:
             self.healing = False
 
-        if self.game.hero.life <= 35:
+        closest_tavern = self.closest_tavern()
+        heal_treshold = self.hero_distance(closest_tavern) * 2
+        if self.game.hero.life <= heal_treshold:
             self.healing = True
 
         dest = self.game.hero.pos
         if self.healing:
-            dest = self.closest_tavern()
+            dest = closest_tavern
         else:
             dest = self.closest_enemy_mine(game)
 
