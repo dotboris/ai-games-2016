@@ -39,7 +39,7 @@ class Bot:
             self.healing = False
 
         closest_tavern = self.closest_tavern()
-        heal_treshold = self.hero_distance(closest_tavern) * 2
+        heal_treshold = self.hero_distance(closest_tavern) * 2 + 26
         if self.game.hero.life <= heal_treshold:
             self.healing = True
 
