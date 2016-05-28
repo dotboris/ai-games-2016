@@ -10,7 +10,7 @@ class Bot:
         self.viewUrl = None
 
     def hero_distance(self, location):
-        return len(shortest_path(self.game.board, self.game.hero.pos, location))
+        return len(shortest_path(self.game, self.game.hero.pos, location))
 
     def closest_enemy_mine(self, game):
         try:
@@ -25,7 +25,7 @@ class Bot:
         try:
             return min(self.game.taverns_locs, key=self.hero_distance)
         except:
-            return game.hero.pos
+            return self.game.hero.pos
 
     def move(self, state):
         if not self.viewUrl:
@@ -52,4 +52,4 @@ class Bot:
         if dest == self.game.hero.pos:
             return 'Stay'
         else:
-            return navigate_towards(game.board, game.hero.pos, dest)
+            return navigate_towards(game, game.hero.pos, dest)
