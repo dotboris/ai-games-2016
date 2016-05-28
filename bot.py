@@ -6,6 +6,7 @@ from pathfinding import navigate_towards, shortest_path
 class Bot:
     def move(self, state):
         game = Game(state)
+        game.board.disp()
         # TODO implement SkyNet here
         # Pathfinding example:
         # dir = navigate_towards(game.board, game.hero.pos, (0, 0))

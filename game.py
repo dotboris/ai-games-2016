@@ -1,4 +1,5 @@
 import re
+import sys
 
 TAVERN = 0
 AIR = -1
@@ -48,6 +49,20 @@ class Game:
 
 
 class Board:
+    def __unparse(self, obj):
+        if (obj == AIR):
+            return '  '
+        if (obj == WALL):
+            return '##'
+        if (obj == TAVERN):
+            return '[]'
+        if (obj == SPIKE):
+            return '^^'
+        if (isinstance(obj, MineTile)):
+            return '@' + repr(obj.heroId)
+        if (isinstance(obj, HeroTile)):
+            return '$' + repr(obj.id)
+ 
     def __parseTile(self, str):
         if (str == '  '):
             return AIR
@@ -93,6 +108,12 @@ class Board:
 
         return (n_row, n_col)
 
+    def disp(self):
+        for row in range(len(self.tiles)):
+           for col in range(len(self.tiles[row])):
+              obj = self.tiles[row][col]
+              sys.stdout.write(self.__unparse(obj))
+           sys.stdout.write("\n")
 
 
 class Hero:
