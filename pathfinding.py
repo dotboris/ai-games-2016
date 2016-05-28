@@ -1,4 +1,4 @@
-from game import AIM
+from game import AIM, SPIKE
 
 
 def navigate_towards(board, source, destination):
@@ -49,7 +49,11 @@ def shortest_path(board, source, destination):
                          tile not in distances)]
 
         for v in neighbors:
-            distances[v] = distances[u] + 1
+            tile = board.tiles[v[0]][v[1]]
+            if tile == SPIKE:
+                distances[v] = distances[u] + 11
+            else:
+                distances[v] = distances[u] + 1
             predecessors[v] = u
 
             nodes.add(v)
